@@ -1,8 +1,10 @@
 from turtle import *
 import numpy as np
 import math
+decision = int(input("Enter '0' if you want to plot cosine series or '1' if you want to plot sine series of rectangular wave: "))
+N = int(input("Enter number of terms of the fourier series you want to plot: "))
+a = int(input("Enter the value of 'a' in order to plot the series from x = '-a' to x = 'a' : "))
 hideturtle()
-
 def bluelines():
     screensize(2000,2000)
     hideturtle()
@@ -53,79 +55,70 @@ def setup():
         p=p+1
 setup()
 
-def function_a(x):
-    R=4/(math.pi)
-    Q=4/(3*(math.pi))
-    S=4/(5*(math.pi))
-    T=4/(7*(math.pi))
-    U=4/(9*math.pi)
-    V=4/(11*math.pi)
-    W=4/(13*math.pi)
-    X=4/(15*math.pi)
-    f=R*math.cos(x)+Q*math.cos((R/Q)*x)+S*math.cos((R/S)*x)+T*math.cos((R/T)*x)+U*math.cos((R/U)*x)+V*math.cos((R/V)*x)+W*math.cos((R/W)*x)+X*math.cos((R/X)*x)
-    return f
-def function_b(x):
-    R=4/(math.pi)
-    Q=4/(3*(math.pi))
-    S=4/(5*(math.pi))
-    T=4/(7*(math.pi))
-    U=4/(9*math.pi)
-    V=4/(11*math.pi)
-    W=4/(13*math.pi)
-    X=4/(15*math.pi)
-    f=R*math.sin(x)+Q*math.sin((R/Q)*x)+S*math.sin((R/S)*x)+T*math.sin((R/T)*x)+U*math.sin((R/U)*x)+V*math.sin((R/V)*x)+W*math.sin((R/W)*x)+X*math.sin((R/X)*x)
-    return f
+def function_x(x,n):
+    R = 4/(math.pi*((2*0)+1))
+    Q = 4/(math.pi*((2*0)+1))
+    sum = R*(math.cos((R/Q)*x))
+    for i in range(1,n,1):
+        Q = 4/(math.pi*((2*i)+1))
+        sum = sum + Q*(math.cos((R/Q)*x))
+    return sum
 
-def fun_a(x):
-    f=function_a(x)
-    return f
-def fun_b(x):
-    f=function_b(x)
-    return f
-
-a=15
-x=-15
-dx=0.05
-while x<=a:
-    x+=dx
-    hideturtle()
-    pensize(3)
-    screensize(2000,2000)
-    color('orange')
-    def draw_1(matA):
-            pu()
-            speed(0)
-            goto(x,fun_a(x))
-            pd()
-            for point in matA:
-                speed(10)
-                goto(point[0],point[1])
-    try:
-        ayush=[[x+dx,fun_a(x+dx)]]
-        draw_1(ayush)
-    except(ValueError,ZeroDivisionError,TypeError):
-        continue
+def function_y(x,n):
+    R = 4/(math.pi*((2*0)+1))
+    Q = 4/(math.pi*((2*0)+1))
+    sum = R*(math.sin((R/Q)*x))
+    for i in range(1,n,1):
+        Q = 4/(math.pi*((2*i)+1))
+        sum = sum + Q*(math.sin((R/Q)*x))
+    return sum
 
 
-a=15
-x=-15
-dx=0.02
-while x<=a:
-    x+=dx
-    hideturtle()
-    pensize(3)
-    screensize(2000,2000)
-    color('red')
-    def draw_1(matA):
-            pu()
-            speed(0)
-            goto(x,fun_b(x))
-            pd()
-            for point in matA:
-                speed(10)
-                goto(point[0],point[1])
-    try:
-        ayush=[[x+dx,fun_b(x+dx)]]
-        draw_1(ayush)
-    except(ValueError,ZeroDivisionError,TypeError):
-        continue
+if (decision == 0):
+    x=-a
+    dx=0.05
+    while x<=a:
+        x+=dx
+        hideturtle()
+        pensize(3)
+        screensize(2000,2000)
+        color('orange')
+        def draw_1(matA):
+                pu()
+                speed(0)
+                goto(x,function_x(x,N))
+                pd()
+                for point in matA:
+                    speed(0)
+                    goto(point[0],point[1])
+        try:
+            ayush=[[x+dx,function_x(x+dx,N)]]
+            draw_1(ayush)
+        except(ValueError,ZeroDivisionError,TypeError):
+            continue
+
+elif (decision == 1):
+    x=-a
+    dx=0.02
+    while x<=a:
+        x+=dx
+        hideturtle()
+        pensize(3)
+        screensize(2000,2000)
+        color('red')
+        def draw_1(matA):
+                pu()
+                speed(0)
+                goto(x,function_y(x,N))
+                pd()
+                for point in matA:
+                    speed(0)
+                    goto(point[0],point[1])
+        try:
+            ayush=[[x+dx,function_y(x+dx,N)]]
+            draw_1(ayush)
+        except(ValueError,ZeroDivisionError,TypeError):
+            continue
+else:
+    print("You have entered wrong input!!!")
+
